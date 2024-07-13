@@ -137,25 +137,6 @@ public class Main {
                 .forEach(System.out::println);
     }
 
-    private void autoresPorAño() {
-        System.out.println("Escribe el año en el que deseas buscar: ");
-        var año = input.nextInt();
-        input.nextLine();
-        if (año < 0) {
-            System.out.println("El año debe ser mayor a cero, intenta de nuevo");
-            return;
-        }
-        List<Authors> autoresPorAño = autoresRepository.findByAñoNacimientoLessThanEqualAndAñoMuerteGreaterThanEqual(año, año);
-        if (autoresPorAño.isEmpty()) {
-            System.out.println("No hay autores registrados para ese año");
-            return;
-        }
-        System.out.println("----- LOS AUTORES VIVOS EN REGISTRO EN EL AÑO " + año + " SON: -----\n");
-        autoresPorAño.stream()
-                .sorted(Comparator.comparing(Authors::getName))
-                .forEach(System.out::println);
-    }
-
     private void listarPorIdioma() {
         System.out.println("Escribe el idioma según las opciones: ");
         String menu = """
@@ -180,4 +161,24 @@ public class Main {
                 .sorted(Comparator.comparing(Books::getTitulo))
                 .forEach(System.out::println);
     }
+
+    private void autoresPorAño() {
+        System.out.println("Escribe el año en el que deseas buscar: ");
+        var año = input.nextInt();
+        input.nextLine();
+        if (año < 0) {
+            System.out.println("El año debe ser mayor a cero, intenta de nuevo");
+            return;
+        }
+        List<Authors> autoresPorAño = autoresRepository.findByAñoNacimientoLessThanEqualAndAñoMuerteGreaterThanEqual(año, año);
+        if (autoresPorAño.isEmpty()) {
+            System.out.println("No hay autores registrados para ese año");
+            return;
+        }
+        System.out.println("----- LOS AUTORES VIVOS EN REGISTRO EN EL AÑO " + año + " SON: -----\n");
+        autoresPorAño.stream()
+                .sorted(Comparator.comparing(Authors::getName))
+                .forEach(System.out::println);
+    }
+
 }
