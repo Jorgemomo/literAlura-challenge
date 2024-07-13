@@ -1,0 +1,81 @@
+package com.aluracursos.literalura_challenge.models;
+
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "autores")
+public class Authors {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String name;
+    private int añoNacimiento;
+    private int añoMuerte;
+
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Books> libros = new ArrayList<>();
+
+    public Authors(DataAuthors datosAutores) {
+        this.name = datosAutores.nombreAutor();
+        this.añoNacimiento = datosAutores.añoNacimiento();
+        this.añoMuerte = datosAutores.añoMuerte();
+    }
+
+    public Authors() {}
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAñoNacimiento() {
+        return añoNacimiento;
+    }
+
+    public void setAñoNacimiento(int añoNacimiento) {
+        this.añoNacimiento = añoNacimiento;
+    }
+
+    public int getAñoMuerte() {
+        return añoMuerte;
+    }
+
+    public void setAñoMuerte(int añoMuerte) {
+        this.añoMuerte = añoMuerte;
+    }
+
+    public List<Books> getLibros() {
+        return libros;
+    }
+
+    public void setLibros(List<Books> libros) {
+        this.libros = libros;
+    }
+
+
+    @Override
+    // Obtener solo el título de los libros
+    public String toString() {
+        StringBuilder librosTitulos = new StringBuilder();
+        for (Books libro : libros) {
+            librosTitulos.append(libro.getTitulo()).append(", ");
+        }
+
+        // Eliminar la última coma y espacio
+        if (librosTitulos.length() > 0) {
+            librosTitulos.setLength(librosTitulos.length() - 2);
+        }
+
+        return  "--------------- AUTOR 👨‍🏫 ---------------" + "\n" +
+                "Autor: " + name + "\n" +
+                "Fecha de nacimiento: " + añoNacimiento + "\n" +
+                "Fecha de fallecimiento: " + añoMuerte + "\n" +
+                "Libros: " + librosTitulos + "\n";
+    }
+}
